@@ -1,0 +1,103 @@
+version: "3.5"
+
+services:
+  nginx:
+    container_name: "nginx"
+    image: "nginx:1.23.3-alpine"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/logs:/var/log/nginx
+      - ${SOURCE_CODE_PATH}:/srv
+    ports:
+      - 80:80
+    networks:
+      - topdev
+
+  php-fpm-74:
+    container_name: "php-fpm-74"
+    user: 'www-data:www-data'
+    build:
+      context: ./php-fpm-74
+      args:
+        - uid=1000
+        - user=cuongdang
+    volumes:
+      - ${SOURCE_CODE_PATH}:/srv:rw
+    networks:
+      - topdev
+
+  php-fpm-81:
+    build:
+      context: ./php-fpm-81
+      args:
+        - uid=1000
+        - user=cuongdang
+    container_name: "php-fpm-81"
+    volumes:
+      - ${SOURCE_CODE_PATH}:/srv:rw
+    networks:
+      - topdev
+
+  # node-14:
+  #   build:
+  #     context: ./node-14
+  #     args:
+  #       - uid=1000
+  #       - user=cuongdang
+  #   container_name: "node-14"
+  #   volumes:
+  #     - ${SOURCE_CODE_PATH}:/srv:rw
+  #   networks:
+  #     - topdev
+  
+  redis:
+    container_name: "redis"
+    image: "redis"
+    ports:
+      - 6379:6379
+    networks:
+      - topdev
+
+  rabbitmq:
+    container_name: "rabbitmq"
+    image: "rabbitmq:3.9-management-alpine"
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - topdev
+
+  elasticsearch:
+    container_name: "elasticsearch"
+    image: "docker.elastic.co/elasticsearch/elasticsearch:7.17.9"
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./elasticsearch/data:/usr/share/elasticsearch/data
+    ports:
+      - 9202:9200
+    networks:
+      - topdev
+
+  mysql:
+    container_name: "mysql"
+    image: "mysql:8.0.32"
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/logs:/var/log/mysql
+    networks:
+      - topdev
+
+networks:
+  topdev:
+    driver: bridge

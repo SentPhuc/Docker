@@ -1,0 +1,14 @@
+IP: 172.29.84.76 => IP docker
+172.29.84.76  ams.topdev.local
+172.29.84.76  crm.topdev.local.com
+172.29.84.76  topdev.local
+172.29.84.76  topdev.local.com
+172.29.84.76  frontend.topdev.local
+172.29.84.76  accounts.topdev.local
+172.29.84.76  accounts.topdev.local.com
+172.29.84.76  api.topdev.local
+172.29.84.76  dash-v2.topdev.local
+172.29.84.76  label.topdev.local
+172.29.84.76  talent-success.topdev.local
+172.29.84.76  apiv2.topdev.local
+172.29.84.76  reports.topdev.local

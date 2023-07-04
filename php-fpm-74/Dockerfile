@@ -6,6 +6,8 @@ ARG user
 
 # RUN addgroup -g 1000 cuongdang
 # RUN adduser -D -u ${uid} -g 1000 ${user}
+# RUN addgroup --system --gid 1000 www-data
+# RUN adduser --system --uid 1000 www-data
 
 # Install dependency
 RUN apk add zlib-dev libpng-dev oniguruma-dev imagemagick zip unzip libzip-dev icu-dev \

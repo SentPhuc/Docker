@@ -1,6 +1,6 @@
+!.gitkeep
 /.env
-/devspace
-/elasticsearch/data/nodes
-/nginx/logs
+/elasticsearch/data
 /mysql/data
 /mysql/logs
+/nginx/logs
